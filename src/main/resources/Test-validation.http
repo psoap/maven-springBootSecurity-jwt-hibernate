@@ -1,0 +1,167 @@
+### USER CONTROLLER TESTS
+###==========================================================================
+GET http://localhost:9090/
+
+> {%
+client.test("Main controller test", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+
+###
+POST http://localhost:9090/api/v1/users/reg
+Content-Type: application/json
+
+{
+"email":"testcom",
+"password":"as"
+}
+
+> {%
+client.test("Registration test", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+
+###
+POST http://localhost:9090/api/v1/users/login
+Content-Type: application/json
+
+{
+"email":"admincom",
+"password":"admi"
+}
+
+
+> {%
+client.test("Login test", function() {
+    var token = response.headers.valueOf("Authorization");
+
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(token != null, "Token is not found");
+});
+%}
+
+### NEWS CONTROLLER TESTS
+###==========================================================================
+GET http://localhost:9090/api/v1/news/
+
+> {%
+client.test("News controller test", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+GET http://localhost:9090/api/v1/news/77
+
+> {%
+client.test("News controller by id test", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+
+###
+PUT http://localhost:9090/api/v1/news/1
+Content-Type: application/json
+Authorization: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoicHNvYXAiLCJpYXQiOjE1NTAyMTYyMzEsImV4cCI6MTU1MDgxNjIzMX0.3a51kg6OWo4oQnWkoydJZnFmnFyefrr7ilhJsc13Q9o
+
+{
+"title":"test news title put",
+"content":"test news content put",
+"changeDate":"2019-02-14T13:33:33.419Z"
+}
+
+> {%
+client.test("News edit test", function() {
+    var location = response.headers.valueOf("Location");
+
+  client.assert(response.status === 201, "Response status is not 201");
+  client.assert(location != null, "Location is not found");
+});
+%}
+
+
+###
+DELETE http://localhost:9090/api/v1/news/1
+Authorization: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoicHNvYXAiLCJpYXQiOjE1NTAyMTYyMzEsImV4cCI6MTU1MDgxNjIzMX0.3a51kg6OWo4oQnWkoydJZnFmnFyefrr7ilhJsc13Q9o
+
+> {%
+client.test("News delete test", function() {
+  client.assert(response.status === 204, "Response status is not 204");
+});
+%}
+
+
+###
+POST http://localhost:9090/api/v1/news
+Content-Type: application/json
+Authorization: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoicHNvYXAiLCJpYXQiOjE1NTAyMTYyMzEsImV4cCI6MTU1MDgxNjIzMX0.3a51kg6OWo4oQnWkoydJZnFmnFyefrr7ilhJsc13Q9o
+
+{
+"title":"",
+"content":" ",
+"changeDate":"2019-02-14T13:33:33.419Z"
+}
+
+> {%
+client.test("News add test", function() {
+    var location = response.headers.valueOf("Location");
+
+  client.assert(response.status === 201, "Response status is not 201");
+  client.assert(location != null, "Location is not found");
+});
+%}
+
+
+### COMENTS CONTROLLER TESTS
+###==========================================================================
+GET http://localhost:9090/api/v1/comments/news/1
+Accept: application/json
+Content-Type: application/json
+
+> {%
+client.test("Comment controller by news id test", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+###
+
+GET http://localhost:9090/api/v1/comments/user/1
+Accept: application/json
+Content-Type: application/json
+
+> {%
+client.test("Comment controller by user id test", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+
+###
+POST http://localhost:9090/api/v1/comments/news/1
+Content-Type: application/json
+Authorization: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoicHNvYXAiLCJpYXQiOjE1NTAyMTYyMzEsImV4cCI6MTU1MDgxNjIzMX0.3a51kg6OWo4oQnWkoydJZnFmnFyefrr7ilhJsc13Q9o
+
+{
+"title":"",
+"content":" ",
+"changeDate":"2019-02-14T13:33:33.419Z"
+}
+
+> {%
+client.test("News add test", function() {
+    var location = response.headers.valueOf("Location");
+
+  client.assert(response.status === 201, "Response status is not 201");
+  client.assert(location != null, "Location is not found");
+});
+%}
+
+###
+
+
